@@ -1,7 +1,6 @@
 import { URLAPI } from "./Url";
 
 export const postLogin = async (usuario) => {
-    console.log(usuario)
   try {
     const fechProducts = await fetch(`${URLAPI}/auth/login`, {
       method: "POST",
@@ -16,3 +15,19 @@ export const postLogin = async (usuario) => {
     return error;
   }
 };
+
+export const getAuth = async (token) => {
+    try {
+      const fechProducts = await fetch(`${URLAPI}/auth/profile`, {
+        method: "GET",
+        headers:{
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      const data = await fechProducts.json();
+      return data;
+    } catch (error) {
+      return error;
+    }
+  };

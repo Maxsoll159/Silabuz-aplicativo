@@ -23,3 +23,19 @@ export const getProductsID = async (id) => {
     return error;
   }
 };
+
+export const postProducto = async (producto) => {
+  try {
+    const fechProducts = await fetch(`${URLAPI}/products/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(producto),
+    });
+    const data = await fechProducts.json();
+    return data;
+  } catch (error) {
+    return error;
+  }
+};

@@ -1,9 +1,12 @@
-import { useState } from "react";
-import { postLogin } from "../../helpers/ApiLogin";
+import { useContext, useState } from "react";
+import { getAuth, postLogin } from "../../helpers/ApiLogin";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { ContextApp } from "../../context/ContextApp";
 
 export const Login = () => {
+  const { setUsuarioLogin } = useContext(ContextApp);
+
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState({
     email: "",
@@ -23,7 +26,13 @@ export const Login = () => {
     postLogin(usuario).then((res) => {
       if (res.statusCode !== 401) {
         Swal.fire("Good job!", "Ingresaste al Sistema!", "success");
-        navigate("/dashboard")
+        localStorage.setItem("token", res.access_token);
+        getAuth(res.access_token).then((res) => {
+          if (res.statusCode !== 400) {
+            setUsuarioLogin(res);
+          }
+        });
+        navigate("/dashboard", { state: { logged: true } });
       } else {
         Swal.fire("Error Login", "Correo o Contraseña Incorrecto", "error");
       }

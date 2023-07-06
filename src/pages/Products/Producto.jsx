@@ -8,24 +8,27 @@ export const Producto = () => {
   if (isLoading) return <div>Cargandoo.....</div>;
   return (
     <section>
-      {data.statusCode === 400 ? (
-        <Navigate to="/" />
-      ) : (
-        <article className="container mx-auto">
-          <div className="grid grid-cols-2">
+      <article className="container mx-auto">
+        <div className="grid grid-cols-2">
+          <div>
             <img src={data?.images[0]} alt="" />
-            <div>
-              <p>{data.title}</p>
-              <p>{data.category.name}</p>
-              <p>S/. {data.price}</p>
-              <div>
-                <p>Descripcion</p>
-                <p>{data.description}</p>
-              </div>
+            <div className="flex">
+              {data.images.map((img) => (
+                <img src={img} alt="" key={img} width={100} />
+              ))}
             </div>
           </div>
-        </article>
-      )}
+          <div>
+            <p>{data.title}</p>
+            <p>{data.category.name}</p>
+            <p>S/. {data.price}</p>
+            <div>
+              <p>Descripcion</p>
+              <p>{data.description}</p>
+            </div>
+          </div>
+        </div>
+      </article>
     </section>
   );
 };
